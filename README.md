@@ -1,5 +1,6 @@
 # SQLZOO Solutions
 Solutions of [SQLZOO tutorial](https://sqlzoo.net/) 
+
 05/05/2021
 
 ## Sections:
@@ -17,18 +18,18 @@ Solutions of [SQLZOO tutorial](https://sqlzoo.net/)
 
 1. Introducing the world table of countries
 ```sql
-  SELECT population FROM world
-   WHERE name = 'Germany'
+SELECT population FROM world
+  WHERE name = 'Germany'
 ```
 2. Scandinavia
 ```sql
-  SELECT name, population FROM world
-   WHERE name IN ('Sweden', 'Norway', 'Denmark');
+SELECT name, population FROM world
+  WHERE name IN ('Sweden', 'Norway', 'Denmark');
 ```
 3. Just the right size
 ```sql
-  SELECT name, area FROM world
-    WHERE area BETWEEN 200000 AND 250000
+SELECT name, area FROM world
+  WHERE area BETWEEN 200000 AND 250000
 ```
 
 ## SELECT from WORLD
@@ -45,8 +46,8 @@ SELECT name
 3. Per capita GDP
 ```sql
 SELECT name, gdp/population AS 'per capita GDP'
-FROM world
-WHERE population >= 200*POWER(10,6)
+  FROM world
+  WHERE population >= 200*POWER(10,6)
 ```
 4. South America In millions
 ```sql
@@ -62,45 +63,44 @@ SELECT name, population
 ```
 6. United
 ```sql
-SELECT name
-  FROM world
+SELECT name FROM world
   WHERE name LIKE '%United%'
 ```
 7. Two ways to be big
 ```sql
 SELECT name, population, area
- FROM world
-WHERE area >= 3*POWER(10,6) OR population >= 250*POWER(10,6)
+  FROM world
+  WHERE area >= 3*POWER(10,6) OR population >= 250*POWER(10,6)
 ```
 8. One or the other (but not both)
 ```sql
 SELECT name, population, area
- FROM world
-WHERE (area >= 3*POWER(10,6) AND population < 250*POWER(10,6)) OR (area < 3*POWER(10,6) AND population >= 250*POWER(10,6))
+  FROM world
+  WHERE (area >= 3*POWER(10,6) AND population < 250*POWER(10,6)) OR (area < 3*POWER(10,6) AND population >= 250*POWER(10,6))
 ```
 9. Rounding
 ```sql
 SELECT name, ROUND(population/POWER(10,6), 2) AS 'population', ROUND(gdp/POWER(10,9), 2) AS 'gdp'
- FROM world
-WHERE continent='South America'
+  FROM world
+  WHERE continent='South America'
 ```
 10. Trillion dollar economies
 ```sql
 SELECT name, ROUND(gdp/population, -3) AS 'per-capita GDP'
- FROM world
-WHERE gdp > 1000000000000
+  FROM world
+  WHERE gdp > 1000000000000
 ```
 11. Name and capital have the same length
 ```sql
 SELECT name, capital
- FROM world
-WHERE LEN(name)=LEN(capital)
+  FROM world
+  WHERE LEN(name)=LEN(capital)
 ```
 12. Matching name and capital
 ```sql
 SELECT name, capital
- FROM world
-WHERE LEFT(name, 1) = LEFT(capital, 1) AND name <> capital
+  FROM world
+  WHERE LEFT(name, 1) = LEFT(capital, 1) AND name <> capital
 ```
 13. All the vowels
 
