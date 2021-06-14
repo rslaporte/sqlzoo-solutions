@@ -325,3 +325,184 @@ SELECT continent
   GROUP BY continent
   HAVING SUM(population) >= 100000000
 ```
+## JOIN
+**1. **
+```sql
+SELECT matchid, player 
+  FROM goal 
+  WHERE teamid = 'GER'
+```
+**2. **
+```sql
+SELECT id,stadium,team1,team2
+  FROM game
+  WHERE id=1012
+```
+**3. **
+```sql
+SELECT player, teamid, stadium, mdate
+  FROM game 
+  JOIN goal ON (id=matchid)
+  WHERE teamid = 'GER'
+```
+**4. **
+```sql
+SELECT team1, team2, player
+  FROM game 
+  JOIN goal ON (game.id=goal.matchid)
+  WHERE player LIKE 'Mario%'
+```
+**5. **
+```sql
+SELECT player, teamid, coach, gtime
+  FROM goal 
+  JOIN eteam ON (goal.teamid=eteam.id)
+  WHERE gtime<=10
+```
+**6. **
+```sql
+SELECT mdate, teamname
+ FROM game 
+ JOIN eteam ON (game.team1 = eteam.id)
+ WHERE coach = 'Fernando Santos'
+```
+**7. **
+```sql
+SELECT player
+ FROM game 
+ JOIN goal ON (game.id = goal.matchid)
+ WHERE stadium = 'National Stadium, Warsaw'
+```
+**8. **
+```sql
+SELECT DISTINCT player
+ FROM game 
+ JOIN goal ON game.id = goal.matchid
+ WHERE (team1='GER' OR team2 = 'GER') AND teamid != 'GER'
+```
+**9. **
+```sql
+SELECT teamname, COUNT(player)
+  FROM eteam 
+  JOIN goal ON id=teamid
+  GROUP BY teamname
+```
+**10. **
+```sql
+SELECT stadium, COUNT(stadium)
+  FROM game JOIN goal ON game.id = goal.matchid
+  GROUP BY stadium
+```
+**11. **
+```sql
+SELECT matchid, mdate, COUNT(matchid)
+  FROM game 
+  JOIN goal ON id = matchid 
+  WHERE (team1 = 'POL' OR team2 = 'POL')
+  GROUP BY matchid, mdate
+```
+**12. **
+```sql
+SELECT matchid, mdate, COUNT(matchid)
+ FROM game 
+ JOIN goal ON id = matchid
+ WHERE teamid = 'GER'
+ GROUP BY matchid, mdate
+```
+**13. **
+```sql
+SELECT DISTINCT mdate, team1,
+  SUM(CASE WHEN teamid=team1 THEN 1 ELSE 0 END) score1,
+  team2,
+  SUM(CASE WHEN teamid=team2 THEN 1 ELSE 0 END) score2
+  FROM game 
+  LEFT JOIN goal ON game.id = goal.matchid
+  GROUP BY mdate, matchid, team1, team2
+```
+
+## More JOIN
+**1. 1962 movies**
+```sql
+SELECT id, title
+  FROM movie
+  WHERE yr=1962'
+```
+**2. When was Citizen Kane released?**
+```sql
+SELECT yr
+  FROM movie
+  WHERE title='Citizen Kane'
+```
+**3. Star Trek movies**
+```sql
+SELECT id, title, yr
+  FROM movie
+  WHERE title LIKE '%Star Trek%'
+```
+**4. id for actor Glenn Close**
+```sql
+SELECT id 
+  FROM actor
+  WHERE name='Glenn Close'
+```
+**5. id for Casablanca**
+```sql
+SELECT id 
+  FROM movie
+  WHERE title='Casablanca'
+```
+**6. Cast list for Casablanca**
+```sql
+SELECT name 
+  FROM actor JOIN casting ON id = actorid
+  WHERE movieid = 27
+```
+**7. Alien cast list**
+```sql
+SELECT name 
+  FROM actor
+  JOIN casting ON actor.id = casting.actorid
+  JOIN movie ON movie.id = casting.movieid
+  WHERE title = 'Alien'
+```
+**8. Harrison Ford movies**
+```sql
+SELECT title 
+  FROM movie
+  JOIN casting ON movie.id = casting.movieid
+  JOIN actor ON casting.actorid = actor.id
+  WHERE name = 'Harrison Ford'
+```
+**9. Harrison Ford as a supporting actor**
+```sql
+SELECT title 
+  FROM movie
+  JOIN casting ON movie.id = casting.movieid
+  JOIN actor ON casting.actorid = actor.id
+  WHERE name = 'Harrison Ford' AND ord != 1
+```
+**10. Lead actors in 1962 movies**
+```sql
+SELECT title, name 
+  FROM movie
+  JOIN casting ON movie.id = casting.movieid
+  JOIN actor ON casting.actorid = actor.id
+  WHERE yr = 1962 AND ord = 1
+```
+**11. Busy years for Rock Hudson**
+```sql
+SELECT yr,COUNT(title) 
+  FROM movie 
+  JOIN casting ON movie.id = movieid
+  JOIN actor   ON actorid = actor.id
+  WHERE name='Rock Hudson'
+  GROUP BY yr
+  HAVING COUNT(title) > 2
+```
+**12. Lead actor in Julie Andrews movies**
+```sql
+SELECT title FROM movie
+  JOIN casting ON movie.id = casting.movieid
+  JOIN actor ON casting.actorid = actor.id
+  WHERE name = 'Harrison Ford' AND ord != 1
+```
